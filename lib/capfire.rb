@@ -6,49 +6,25 @@ class Capfire
   # To see how it actually works take a gander at the generator
   # or in the capistrano.rb
   class << self
-    def config_file_path
-      "config/capfire.yml"
-    end
-
     def config_file_exists?
       File.exists?(config_file_path)
     end
 
     def valid_config?
-      config = self.config
-      config["post_message"] && config["room"] && config ["token"] && config["account"]
+      post_message && room && token && account
     end
 
-    def config
-      YAML::load( File.open(config_file_path))
-    end
-
-    # Campfire room
-    def room
-      self.config["room"]
-    end
-
-    # Campfire account
-    def account
-      self.config["account"]
-    end
-
-    # Campfire token
-    def token
-      self.config["token"]
-    end
-
-    # Who is deploying
-    def deployer
-      ENV["USER"]
+    def has_pre_deploy_message?
+      !pre_message.nil?
     end
 
     # Link to github's excellent Compare View
     def github_compare_url(repo_url, first_commit, last_commit)
-      repo_url.gsub!(/git@/, 'http://')
-      repo_url.gsub!(/github\.com:/,'github.com/')
-      repo_url.gsub!(/\.git/, '')
-      "#{repo_url}/compare/#{first_commit}...#{last_commit}"
+      url = repo_url.clone
+      url.gsub!(/git@/, 'http://')
+      url.gsub!(/github\.com:/,'github.com/')
+      url.gsub!(/\.git/, '')
+      "#{url}/compare/#{first_commit}...#{last_commit}"
     end
 
     # Sound to play on campfire before deploy
@@ -65,51 +41,83 @@ class Capfire
 
     # Message to post to campfire on deploy
     def pre_deploy_message(args, compare_url, application)
-      message = self.config["pre_message"]
-      subs(message, args, compare_url, application)
+      subs(pre_message, args, compare_url, application)
     end
 
     # Message to post to campfire on deploy
     def post_deploy_message(args, compare_url, application)
-      message = self.config["post_message"]
-      subs(message, args, compare_url, application)
-    end
-
-    def subs( text, args, compare_url, application )
-      # Basic emoji
-      text = text.clone
-      text.gsub!('#sparkle#', "\u{2728}")
-      text.gsub!('#star#', "\u{1F31F}")
-      text.gsub!('#turd#', "\u{1F4A9}")
-      text.gsub!('#deployer#', deployer)
-      text.gsub!('#application#', application) if application
-      text.gsub!('#args#', args) if args
-      text.gsub!('#compare_url#', compare_url) if compare_url
-      text
-    end
-
-    def has_pre_deploy_message?
-      self.config["pre_message"]
-    end
-
-    # Initializes a broach campfire room
-    def broach
-      Broach.tap do |broach|
-        broach.settings = {
-        'account' => self.account,
-        'token' => self.token,
-        'use_ssl' => true
-        }
-      end
+      subs(post_message, args, compare_url, application)
     end
 
     def valid_credentials?
       !!self.broach.me
     end
 
-    # Posts to campfire
     def speak(message, options={})
       self.broach.speak(self.room, message, options) if valid_credentials?
     end
+
+    private
+      def config_file_path
+        "config/capfire.yml"
+      end
+
+      def config
+        @config ||= YAML::load(File.open(config_file_path))
+      end
+
+      # Campfire room
+      def room
+        self.config["room"]
+      end
+
+      # Campfire account
+      def account
+        self.config["account"]
+      end
+
+      # Campfire token
+      def token
+        self.config["token"]
+      end
+
+      # Who is deploying
+      def deployer
+        ENV["USER"] || `git config user.email`
+      end
+
+      # Message sended before deploy
+      def pre_message
+        self.config["pre_message"]
+      end
+
+      # Message sended after deploy
+      def post_message
+        self.config["post_message"]
+      end
+
+      # Initializes a broach campfire room
+      def broach
+        Broach.tap do |broach|
+          broach.settings = {
+          'account' => self.account,
+          'token' => self.token,
+          'use_ssl' => true
+          }
+        end
+      end
+
+      def subs(text, args, compare_url, application)
+        # Basic emoji
+        text = text.clone
+        text.gsub!('#sparkle#', "\u{2728}")
+        text.gsub!('#star#', "\u{1F31F}")
+        text.gsub!('#turd#', "\u{1F4A9}")
+        text.gsub!('#deployer#', deployer)
+        text.gsub!('#application#', application) if application
+        text.gsub!('#args#', args) if args
+        text.gsub!('#compare_url#', compare_url) if compare_url
+        text
+      end
   end
 end
