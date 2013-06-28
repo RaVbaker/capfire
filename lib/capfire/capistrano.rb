@@ -10,7 +10,7 @@ Capistrano::Configuration.instance(:must_exist).load do
     before "deploy", "capfire:pre_announce"
     after "deploy", "capfire:post_announce"
   else
-    logger.info "Not all required keys found in your config/capfire.yml file."
+    logger.info("Not all required keys found in your config/capfire.yml file.")
   end
 
   namespace :capfire do
@@ -24,21 +24,21 @@ Capistrano::Configuration.instance(:must_exist).load do
           deployed_version = latest_revision[0,7] rescue "000000"
           local_version = `git rev-parse HEAD`[0,7]
 
-          COMPARE_URL = Capfire.github_compare_url source_repo_url, deployed_version, local_version
+          COMPARE_URL = Capfire.github_compare_url(source_repo_url, deployed_version, local_version)
           message = Capfire.pre_deploy_message(ARGV.join(' '), COMPARE_URL, application)
 
           if dry_run
-            logger.info "Capfire would have posted:\n#{message}"
+            logger.info("Capfire would have posted:\n#{message}")
           else
             Capfire.speak message
             Capfire.pre_deploy_sound
-            logger.info "Posting to Campfire"
+            logger.info("Posting to Campfire")
           end
         end
       rescue => e
         # Making sure we don't make capistrano fail.
         # Cause nothing sucks donkeyballs like not being able to deploy
-        logger.important e.message
+        logger.important(e.message)
       end
     end
 
@@ -49,17 +49,17 @@ Capistrano::Configuration.instance(:must_exist).load do
           message = Capfire.post_deploy_message(ARGV.join(' '), COMPARE_URL, application)
 
           if dry_run
-            logger.info "Capfire would have posted:\n#{message}"
+            logger.info("Capfire would have posted:\n#{message}")
           else
             Capfire.speak message
             Capfire.post_deploy_sound
-            logger.info "Posting to Campfire"
+            logger.info("Posting to Campfire")
           end
         end
       rescue => e
         # Making sure we don't make capistrano fail.
         # Cause nothing sucks donkeyballs like not being able to deploy
-        logger.important e.message
+        logger.important(e.message)
       end
     end
   end

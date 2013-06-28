@@ -11,7 +11,7 @@ class Capfire
     end
 
     def config_file_exists?
-      File.exists?( config_file_path )
+      File.exists?(config_file_path)
     end
 
     def valid_config?
@@ -20,7 +20,7 @@ class Capfire
     end
 
     def config
-      YAML::load( File.open( config_file_path ) )
+      YAML::load( File.open(config_file_path))
     end
 
     # Campfire room
@@ -51,10 +51,6 @@ class Capfire
       "#{repo_url}/compare/#{first_commit}...#{last_commit}"
     end
 
-    def default_post_message
-      "#star# #deployer# finished the #application# deploy (#compare_url#)"
-    end
-
     # Sound to play on campfire before deploy
     def pre_deploy_sound
       sound = self.config["pre_sound"]
@@ -70,27 +66,25 @@ class Capfire
     # Message to post to campfire on deploy
     def pre_deploy_message(args, compare_url, application)
       message = self.config["pre_message"]
-      message = subs( message, args, compare_url, application )
-      message
+      subs(message, args, compare_url, application)
     end
 
     # Message to post to campfire on deploy
     def post_deploy_message(args, compare_url, application)
       message = self.config["post_message"]
-      message = subs( message, args, compare_url, application )
-      message
+      subs(message, args, compare_url, application)
     end
 
     def subs( text, args, compare_url, application )
       # Basic emoji
       text = text.clone
-      text.gsub!( /#sparkle#/, "\u{2728}" )
-      text.gsub!( /#star#/, "\u{1F31F}" )
-      text.gsub!( /#turd#/, "\u{1F4A9}" )
-      text.gsub!( /#deployer#/, deployer )
-      text.gsub!( /#application#/, application ) if application
-      text.gsub!( /#args#/, args ) if args
-      text.gsub!( /#compare_url#/, compare_url ) if compare_url
+      text.gsub!('#sparkle#', "\u{2728}")
+      text.gsub!('#star#', "\u{1F31F}")
+      text.gsub!('#turd#', "\u{1F4A9}")
+      text.gsub!('#deployer#', deployer)
+      text.gsub!('#application#', application) if application
+      text.gsub!('#args#', args) if args
+      text.gsub!('#compare_url#', compare_url) if compare_url
       text
     end
 
