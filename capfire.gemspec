@@ -5,13 +5,13 @@
 
 Gem::Specification.new do |s|
   s.name = "capfire"
-  s.version = "0.3.3"
+  s.version = "0.3.4"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = ["pjaspers", "atog"]
-  s.date = "2012-02-02"
-  s.description = "Send a notification to Campfire after a cap deploy"
-  s.email = "piet@10to1.be"
+  s.authors = ["pjaspers", "atog", "tylerjohnst", "ravbaker"]
+  s.date = "2013-06-28"
+  s.description = "Send a notification to Campfire after a Capistrano cap deploy. It's also possible to send notification before."
+  s.email = "ravbaker@gmail.com"
   s.extra_rdoc_files = [
     "LICENSE",
     "README.markdown"
@@ -26,10 +26,10 @@ Gem::Specification.new do |s|
     "lib/capfire.rb",
     "lib/capfire/capistrano.rb"
   ]
-  s.homepage = "http://github.com/pjaspers/capfire"
+  s.homepage = "http://github.com/RaVbaker/capfire"
   s.require_paths = ["lib"]
-  s.rubygems_version = "1.8.11"
-  s.summary = "Send a notification to Campfire after a cap deploy"
+  s.rubygems_version = "1.8.25"
+  s.summary = "Send a notification to Campfire after a Capistrano cap deploy"
 
   if s.respond_to? :specification_version then
     s.specification_version = 3

@@ -5,11 +5,11 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "capfire"
-    gem.summary = %Q{Send a notification to Campfire after a cap deploy}
-    gem.description = %Q{Send a notification to Campfire after a cap deploy}
-    gem.email = "piet@10to1.be"
-    gem.homepage = "http://github.com/pjaspers/capfire"
-    gem.authors = ["pjaspers", "atog"]
+    gem.summary = %Q{Send a notification to Campfire after a Capistrano cap deploy}
+    gem.description = %Q{Send a notification to Campfire after a Capistrano cap deploy. It's also possible to send notification before.}
+    gem.email = "ravbaker@gmail.com"
+    gem.homepage = "http://github.com/RaVbaker/capfire"
+    gem.authors = ["pjaspers", "atog", "tylerjohnst", "ravbaker"]
     gem.files = FileList['[A-Z]*',
       'lib/**/*.rb',
       'lib/templates/*.erb']
