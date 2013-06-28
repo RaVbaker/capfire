@@ -1,3 +1,7 @@
 source "https://rubygems.org"
 gem "jeweler"
-gem "rspec"
+
+group :test do
+  gem "broach"
+  gem "rspec"
+end
