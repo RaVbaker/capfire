@@ -2,6 +2,8 @@
 
 I have changed the revision taken for compare link to lastest_release. It fits better for reality.
 
+I have also made the pre_message optional and if it's not defined in `config/capfire.yml` then sending message before deploy is skipped.
+
 # Capfire (modified by [tylerjohnst](https://github.com/tylerjohnst/capfire))
 
 I made modifications to Capfire. Whee.

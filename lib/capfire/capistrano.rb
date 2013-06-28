@@ -18,7 +18,7 @@ Capistrano::Configuration.instance(:must_exist).load do
     desc "Pre-announce the deploy in Campfire"
     task :pre_announce do
       begin
-        if Capfire.valid_credentials?
+        if Capfire.valid_credentials? && Capfire.has_pre_deploy_message?
           source_repo_url = repository.clone
 
           deployed_version = latest_revision[0,7] rescue "000000"

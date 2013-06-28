@@ -16,7 +16,7 @@ class Capfire
 
     def valid_config?
       config = self.config
-      config["pre_message"] && config["post_message"] && config["room"] && config ["token"] && config["account"]
+      config["post_message"] && config["room"] && config ["token"] && config["account"]
     end
 
     def config
@@ -51,10 +51,6 @@ class Capfire
       "#{repo_url}/compare/#{first_commit}...#{last_commit}"
     end
 
-    def default_pre_message
-      "#sparkle# #deployer# started a #application# deploy with `cap #args#` (#compare_url#)"
-    end
-
     def default_post_message
       "#star# #deployer# finished the #application# deploy (#compare_url#)"
     end
@@ -73,14 +69,14 @@ class Capfire
 
     # Message to post to campfire on deploy
     def pre_deploy_message(args, compare_url, application)
-      message = self.config["pre_message"] || default_pre_message
+      message = self.config["pre_message"]
       message = subs( message, args, compare_url, application )
       message
     end
 
     # Message to post to campfire on deploy
     def post_deploy_message(args, compare_url, application)
-      message = self.config["post_message"] || default_post_message
+      message = self.config["post_message"]
       message = subs( message, args, compare_url, application )
       message
     end
@@ -96,6 +92,10 @@ class Capfire
       text.gsub!( /#args#/, args ) if args
       text.gsub!( /#compare_url#/, compare_url ) if compare_url
       text
+    end
+
+    def has_pre_deploy_message?
+      self.config["pre_message"]
     end
 
     # Initializes a broach campfire room
