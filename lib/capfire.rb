@@ -72,7 +72,7 @@ class Capfire
     end
 
     # Message to post to campfire on deploy
-    def pre_deploy_message(args, compare_url, application) 
+    def pre_deploy_message(args, compare_url, application)
       message = self.config["pre_message"] || default_pre_message
       message = subs( message, args, compare_url, application )
       message

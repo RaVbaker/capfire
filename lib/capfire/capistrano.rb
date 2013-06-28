@@ -21,7 +21,7 @@ Capistrano::Configuration.instance(:must_exist).load do
         if Capfire.valid_credentials?
           source_repo_url = repository.clone
 
-          deployed_version = previous_revision[0,7] rescue "000000"
+          deployed_version = latest_revision[0,7] rescue "000000"
           local_version = `git rev-parse HEAD`[0,7]
 
           COMPARE_URL = Capfire.github_compare_url source_repo_url, deployed_version, local_version

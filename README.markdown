@@ -1,4 +1,8 @@
-# Capfire (modified)
+# Capfire (modified by [me](https://github.com/RaVbaker/capfire))
+
+I have changed the revision taken for compare link to lastest_release. It fits better for reality.
+
+# Capfire (modified by [tylerjohnst](https://github.com/tylerjohnst/capfire))
 
 I made modifications to Capfire. Whee.
 
