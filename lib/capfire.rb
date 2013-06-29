@@ -63,7 +63,7 @@ class Capfire
       end
 
       def config
-        YAML::load(File.open(config_file_path))
+        YAML.load_file(config_file_path)
       end
 
       # Campfire room

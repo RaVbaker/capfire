@@ -183,13 +183,13 @@ describe Capfire do
 
   private
     def config_example(filter=nil)
-      file = File.open("./spec/fixtures/config_example.yml").read
-      file = file.lines.reject{|line| line.include?(filter)}.join if filter
-      file
+      file_source = File.read("./spec/fixtures/config_example.yml")
+      file_source = file_source.lines.reject{|line| line.include?(filter)}.join if filter
+      YAML.load(file_source)
     end
 
     def stub_config(file=nil)
-      File.stub(open: file || config_file)
+      YAML.stub(load_file: file || config_file)
     end
 
     def stub_broach
