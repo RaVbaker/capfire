@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "capfire"
-  s.version = "0.3.4"
+  s.version = "0.3.5"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["pjaspers", "atog", "tylerjohnst", "ravbaker"]
-  s.date = "2013-06-28"
+  s.date = "2013-06-29"
   s.description = "Send a notification to Campfire after a Capistrano cap deploy. It's also possible to send notification before."
   s.email = "ravbaker@gmail.com"
   s.extra_rdoc_files = [
