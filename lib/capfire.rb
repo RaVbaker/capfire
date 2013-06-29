@@ -11,7 +11,7 @@ class Capfire
     end
 
     def valid_config?
-      post_message && room && token && account
+      (post_message && room && token && account)
     end
 
     def has_pre_deploy_message?
@@ -21,7 +21,7 @@ class Capfire
     # Link to github's excellent Compare View
     def github_compare_url(repo_url, first_commit, last_commit)
       url = repo_url.clone
-      url.gsub!(/git@/, 'http://')
+      url.gsub!(/git@/, 'https://')
       url.gsub!(/github\.com:/,'github.com/')
       url.gsub!(/\.git/, '')
       "#{url}/compare/#{first_commit}...#{last_commit}"
@@ -50,35 +50,35 @@ class Capfire
     end
 
     def valid_credentials?
-      !!self.broach.me
+      !!broach.me
     end
 
     def speak(message, options={})
-      self.broach.speak(self.room, message, options) if valid_credentials?
+      broach.speak(self.room, message, options) if valid_credentials?
     end
 
-    private
+    protected
       def config_file_path
         "config/capfire.yml"
       end
 
       def config
-        @config ||= YAML::load(File.open(config_file_path))
+        YAML::load(File.open(config_file_path))
       end
 
       # Campfire room
       def room
-        self.config["room"]
+        config["room"]
       end
 
       # Campfire account
       def account
-        self.config["account"]
+        config["account"]
       end
 
       # Campfire token
       def token
-        self.config["token"]
+        config["token"]
       end
 
       # Who is deploying
@@ -88,12 +88,12 @@ class Capfire
 
       # Message sended before deploy
       def pre_message
-        self.config["pre_message"]
+        config["pre_message"]
       end
 
       # Message sended after deploy
       def post_message
-        self.config["post_message"]
+        config["post_message"]
       end
 
       # Initializes a broach campfire room

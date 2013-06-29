@@ -48,10 +48,10 @@ describe Capfire do
     let(:first_commit) { "01ABCDEF" }
     let(:last_commit) { "98765431" }
     subject { Capfire.github_compare_url(repo_address, first_commit, last_commit) }
-    xit "should convert github repo address into url" do
+    it "should convert github repo address into url" do
       subject.should == "https://github.com/RaVbaker/capfire/compare/#{first_commit}...#{last_commit}"
     end
-    xit "should not change repo_address directly" do
+    it "should not change repo_address directly" do
       repo_address_copy = repo_address.clone
       subject
       repo_address.should == repo_address_copy
