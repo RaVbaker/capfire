@@ -1,0 +1,5 @@
+room: MyRoom
+account: acc_ount
+token: t0ken
+pre_message: Deploy started
+post_message: My deploy passed
